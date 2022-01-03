@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - ClipXHost</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US" LINK="#e0e0ff" BGCOLOR="#001240" DIR="LTR">
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 1.18in; margin-right: 1.18in">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><FONT SIZE=4 STYLE="font-size: 16pt"><B>ClipXHost
+API</B></FONT></P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>const char
+*getVersion();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Returns the
+ClipX version string.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>int
+isBeta();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Returns 1 if a
+beta version.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>const char
+*getPlatformId();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Returns the
+platform id.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (const char *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">&quot;Win32&quot;:
+for 32 bits operating systems.<BR>&quot;Win64&quot;: for 64 bits
+operating systems.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>const char
+*getArchitectureId();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Returns the
+architecture id.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (const char *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">&quot;x86&quot;:
+for 32 bits builds.<BR>&quot;x64&quot;: for 64 bits builds.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>void
+exit();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Exit ClipX
+(deferred)</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>const char
+*getInstallPath();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Returns the path
+in which ClipX is installed.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>int
+history_getNumItems();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Returns the
+number of items in the clipboard history</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>int
+history_getItemType(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Get an item's
+type.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to get the type.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+-1: Invalid index<BR>0: Text item's<BR>1: Bitmap item</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>const char
+*history_getItemText(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Get an item's
+text.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to get the text.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (const char *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The text of the clipboard item or NULL if idx is an invalid index.
+<BR>Bitmaps return &quot;Bitmap WxH&quot;. <BR>Encoding is UTF8.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>int
+history_getItemBitmapWidth(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Get a bitmap
+item's width.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to get the width.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The width of the bitmap item, or -1 if idx is either an invalid index
+or not a bitmap item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>int
+history_getItemBitmapHeight(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Get a bitmap
+item's height.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to get the height.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The height of the bitmap item, or -1 if idx is either an invalid
+index or not a bitmap item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>COLORREF
+*history_getItemBitmapBits(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Get a pointer to
+a bitmap item's bits.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to get the bits.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (COLORREF *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A pointer to a bitmap bits array, or NULL if idx is either an invalid
+index or not a bitmap item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>int
+history_getFileListCount(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Get the number
+of files in a file list entry.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to get the number of files.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The number of files in the file list, or -1 if idx is not a filelist
+item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>const char
+*history_getFileListFile(int idx, int fileidx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Enumerate the
+files in a filelist item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item of which to enumerate the files.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int fileidx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the file to retrieve.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (const char *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The name of the file, or NULL if fileidx is an invalid index, or if
+idx is an invalid item or not a filelist.<BR>Encoding is UTF8.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>void
+history_deleteItem(int idx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Delete an item
+from the history</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item to delete</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>void
+history_moveItem(int idx, int newidx);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Move an item to
+another location 
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int oldidx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The index of the item to move</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int newidx </I>
+</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The new location
+for the item (0 = first, 1 = second, -1 = last)</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>void
+config_allowApply();</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Enables the
+Apply button in the configuration.</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in"><B>Void
+misc_navigate(const char *url);</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Navigate to the
+provided URL, using the user selected method.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*url</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The URL to navigate to.</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in"><B>void
+misc_formatLine(const char *dest, int destlen, const char *source,
+int doubleands)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Format a block
+of text into a one line suitable for single line display.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const chat
+*dest</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The destination buffer</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int destlen</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The size of the destination buffer</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*source</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The source text to format</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int
+doubleands</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+Whether to turn &ldquo;&amp;&rdquo; characters into &ldquo;&amp;&amp;&rdquo;,
+for win32 draw text purposes.</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in"><B>void
+misc_paste(const char *text)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Paste arbitrary
+text in the currently active application.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*text</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The arbitrary
+text to paste in the application</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in"><B>void
+misc_pasteHistoryItem(int idx)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Paste a
+clipboard history item in the currently active application</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int idx</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The index of the
+item to paste.</P>
+<P STYLE="margin-left: 1.19in; margin-right: 1.18in"><B>void
+hotkey_subclassEditBox(HWND editBoxWnd)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Subclass an edit
+control and turns it into an extended hotkey control.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>HWND
+editBoxWnd</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The HWND of the
+editbox control you wish to turn into an extended hotkey control.</P>
+<P STYLE="margin-left: 1.19in; margin-right: 1.18in"><B>void
+hotkey_decode(int *keyCode, int *modifiers, WORD controlHotkeyCode)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Decode a control
+hotkey code into its RegisterHotkey components.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int *keyCode</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A pointer to integer that will receive the value to use as the <I>vk</I>
+parameter in a RegisterHotkey call.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int
+*modifiers</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A pointer to integer that will receive the value to use as the
+<I>fsModifiers</I> parameter in a RegisterHotkey call.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>WORD
+controlHotkeyCode</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>The value
+received from a WM_GETHOTKEY message to the control.</I></P>
+<P STYLE="margin-left: 1.19in; margin-right: 1.18in"><B>WORD
+hotkey_encode(int keyCode, int modifiers)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">Encode a control
+hotkey code from its RegisterHotkey components.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int keyCode</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The value used as the <I>vk</I> parameter in a RegisterHotkey call
+for the corresponding hotkey.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int modifiers</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The value used as the fsModifiers in a RegisterHotkey call for the
+corresponding hotkey.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>Returned
+value (WORD):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The code to send to the control in a WM_SETHOTKEY message.</P>
+<P><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+</BODY>
+</HTML>

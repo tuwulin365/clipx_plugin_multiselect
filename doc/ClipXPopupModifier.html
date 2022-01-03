@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - ClipXPopupModifier</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US" LINK="#e0e0ff" BGCOLOR="#001240" DIR="LTR">
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 1.18in; margin-right: 1.18in">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><FONT SIZE=4 STYLE="font-size: 16pt"><B>ClipXPopupModifier
+Service</B></FONT></P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Header: #include
+&lt;ClipXPopupModifier.h&gt;<BR>Ancestor: ClipXPopupModifer</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Member Events:</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void customizeSystrayMenu(ClipXMenuHandler *menu) {}</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">This callback
+function is called after the user has right-clicked the System Tray
+icon, and before the menu is shown. <BR><BR><I>ClipXMenuHandler *menu</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">A
+<A HREF="ClipXMenuHandler.html">ClipXMenuHandler</A> interface used
+to add your own items to the main menu.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void customizeHistoryMenu(ClipXMenuHandler *menu, int is_hotkey, int
+is_submenu) {}</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called after the user has pressed the
+Clipboard History hotkey, or has clicked the System Tray icon (if
+this is a right-click, this function is called after
+customizeSystrayMenu has been called). 
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>ClipXMenuHandler
+*menu</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">A
+<A HREF="ClipXMenuHandler.html">ClipXMenuHandler</A> interface used
+to add your own items to the Clipboard History menu.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int is_hotkey</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A boolean value indicating if the menu has been spawned in response
+to the paste hotkey.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int
+is_submenu</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A boolean value indicating if the Clipboard History menu is a submenu
+of the main system tray menu or not (if is_submenu is true, the menu
+has been spawned in response to a right-click on the System Tray
+icon)</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void onCustomSize(int cmd, int *w, int *h) {}</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal; text-decoration: none">
+This callback function is called for each of the items you have
+inserted in the menu using the MF_OWNERDRAW flag.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; text-decoration: none">
+<I>int cmd</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal; text-decoration: none">
+The command identifier for the menu item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; text-decoration: none">
+<I>int *w</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; text-decoration: none">
+A pointer to an integer value used to calculate the size of the menu.
+You should fill this variable with the width of your rendered item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; text-decoration: none">
+<I>int *h</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal; text-decoration: none">
+A pointer to an integer value used to calculate the size of the menu
+item. You should fill this variable with the height of your rendered
+item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void onCustomDraw(int cmd, HDC dc, RECT rcitem, int state) {}</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called whenever an menu item that has been
+inserted with the MF_OWNERDRAW flag needs to be rendered.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int cmd</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The command
+identifier for the menu item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>HDC dc</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The HDC handle that you should use to draw your menu item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>RECT rcitem</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The rectangle in which you should draw your menu item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int state</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The state in which you should draw your menu item. This value can be
+a combination of the following values:</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>ODS_CHECKED &ndash;
+</I>The menu item is to be checked<I><BR>ODS_DISABLED &ndash; </I>The
+menu item is to be drawn disabled <I><BR>ODS_GRAYED &ndash; </I>The
+menu item is to be grayed <I><BR>ODS_SELECTED &ndash; </I>The menu
+item is to be draw selected</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+int onCustomAccelerator(char c) { return -1; }</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called in response to a keypress within a
+menu, and is used to implement a custom accelerator for your items
+that have been inserted with the MF_OWNERDRAW flag.</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>char c</I></P>
+<P STYLE="margin-left: 3.15in; margin-right: 1.18in; font-style: normal">
+The character that was pressed.</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>return value
+(int):</I></P>
+<P STYLE="margin-left: 3.15in; margin-right: 1.18in; font-style: normal">
+The command identifier that corresponds to this keyboard accelerator
+or -1 if none does.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void onCommand(int cmd) {}</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the user has selected one of
+your menu items.</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>int cmd</I></P>
+<P STYLE="margin-left: 3.15in; margin-right: 1.18in">The command
+identifier of the selected menu item.<BR><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void onDeleteMenu(ClipXMenuHandler *menu) {}</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the menu is
+deleted.<BR><BR><I>ClipXMenuHandler *menu</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The
+<A HREF="ClipXMenuHandler.html">ClipXMenuHandler</A> interface for
+the menu that is going away.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+</BODY>
+</HTML>

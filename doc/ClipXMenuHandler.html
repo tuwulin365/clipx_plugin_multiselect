@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - ClipXMenuHandler</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US" LINK="#e0e0ff" BGCOLOR="#001240" DIR="LTR">
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 1.18in; margin-right: 1.18in">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><FONT SIZE=4 STYLE="font-size: 16pt"><B>ClipXMenuHandler
+Interface</B></FONT></P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Member
+Functions:</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>void
+insertMenuItem(int flags, int cmd, const char *str);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Call this function to insert a menu item at the top of this menu.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int flags</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A flag that controls the bahavior and aspect of this menu item, this
+may be a combinations of the following values :</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>MF_STRING &ndash;
+</I>This is the default parameter, the item is a simple
+string.<I><BR>MF_CHECKED &ndash; </I>The item should have a checkbox
+associated with it<I><BR>MF_GRAYED &ndash; </I>The item should be
+grayed out and unselectable<I><BR>MF_DISABLED &ndash; </I>The item
+should be disabled and no selectable, but otherwise look normal
+<I><BR>MF_OWNERDRAW &ndash; </I>The item is drawn using
+<A HREF="ClipXPopupModifier.html">ClipXPopupModifier</A> custom
+drawing callbacks<I><BR>MF_SEPARATOR &ndash; </I>The item is a
+separator (cmd and str parameters are ignored)</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int cmd</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The command
+identifier for your menu item. This value will be passed to
+<A HREF="ClipXPopupModifier.html">ClipXPopupModifer</A>::onCommand
+when the user selects this item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*str</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The UTF8 string associated with this menu item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>ClipXMenuHandler
+*insertPopupMenu(const char *str);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Call this function to insert a sub popup menu at the top of this
+menu.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*str</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The UTF8 string associated with this menu sub-popup.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>returned
+value (<A HREF="">ClipXMenuHandler</A> *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">A pointer to a
+new <A HREF="">ClipXMenuHandler</A> interface associated with your
+menu sub-popup (you should not delete this pointer, ClipX deletes it
+on its own when it is no longer needed).</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>void
+addMenuItem(int flags, int cmd, const char *str);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Call this function to insert a menu item at the bottom of this menu.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int flags</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A flag that controls the bahavior and aspect of this menu item, this
+may be a combinations of the following values :</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><I>MF_STRING &ndash;
+</I>This is the default parameter, the item is a simple
+string.<I><BR>MF_CHECKED &ndash; </I>The item should have a checkbox
+associated with it<I><BR>MF_GRAYED &ndash; </I>The item should be
+grayed out and unselectable<I><BR>MF_DISABLED &ndash; </I>The item
+should be disabled and no selectable, but otherwise look normal
+<I><BR>MF_OWNERDRAW &ndash; </I>The item is drawn using
+<A HREF="ClipXPopupModifier.html">ClipXPopupModifier</A> custom
+drawing callbacks<I><BR>MF_SEPARATOR &ndash; </I>The item is a
+separator (cmd and str parameters are ignored)</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int cmd</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The command
+identifier for your menu item. This value will be passed to
+<A HREF="ClipXPopupModifier.html">ClipXPopupModifer</A>::onCommand
+when the user selects this item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*str</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The UTF8 string associated with this menu item.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>ClipXMenuHandler
+*addPopupMenu(const char *str);</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Call this function to insert a sub popup menu at the bottom of this
+menu.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*str</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The UTF8 string associated with this menu sub-popup.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>returned
+value (<A HREF="">ClipXMenuHandler</A> *):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">A pointer to a
+new <A HREF="">ClipXMenuHandler</A> interface associated with your
+menu sub-popup (you should not delete this pointer, ClipX deletes it
+on its own when it is no longer needed).</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in; font-style: normal">
+<B>void updateMenuItem(int newflag, int cmd, const char *new_str)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Call this function to change a previously added menu item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Parameters are identifcal to addMenuItem</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in; font-style: normal">
+<B>void deleteMenuItem(int cmd)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Delete a previously added menu item.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>int cmd:</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The command identifier for the item to delete.</P>
+<P STYLE="margin-left: 1.2in; margin-right: 1.18in; font-style: normal">
+<B>void deletePopupMenu(ClipXMenuHandler *menu)</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Delete a previously added sub popup menu.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>ClipXMenuHandler
+*menu:</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in">The
+<A HREF="">ClipXMenuHandler</A> for the menu to delete.</P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><A HREF="index.html"><I>Back
+to documentation index</I></A></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+</BODY>
+</HTML>

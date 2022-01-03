@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - ClipXConfigPage</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US" LINK="#e0e0ff" BGCOLOR="#001240" DIR="LTR">
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 1.18in; margin-right: 1.18in">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><FONT SIZE=4 STYLE="font-size: 16pt"><B>ClipXConfigPage
+Service</B></FONT></P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Header: #include
+&lt;ClipXConfigPage.h&gt;<BR>Ancestor: ClipXConfigPage</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Member Events:</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual const char *getPageTitle() { return &quot;Page Name&quot;;
+}</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when ClipX needs to know the name of
+your configuration page. The returned (UTF8) string is inserted in
+the configuration list.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual void copySettings() {}</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the main configuration dialog
+is created. You should copy your settings into temporary variables in
+response to this event.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual void applySettings() {}</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the user has clicked OK or
+APPLY in the main configuration dialog. You should copy the temporary
+settings that were modified by the config page back into the actual
+settings, therefore applying the changes.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual HWND createPage(HWND parent) { return
+CreateDialog(the-&gt;getOSModuleHandle(), MAKEINTRESOURCE(ID),
+parent, dlgProc.); }</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the configuration user
+interface needs to instantiate your dialog. The above typical
+response creates the dialog from resources, using ID as an identifier
+and dlgProc as a dialog procedure (note that depending on your
+project settings, you may have to use CreateDialogW instead if you
+need your dialog to show international character sets). A typical
+dialog procedure will look like this :</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>BOOL CALLBACK
+dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{<BR>&nbsp;&nbsp;switch (uMsg) {<BR>&nbsp;&nbsp;&nbsp;&nbsp;case
+WM_INITDIALOG:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// initialize
+your widgets<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+TRUE;<BR>&nbsp;&nbsp;&nbsp;&nbsp;case WM_COMMAND:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+handle your widget callbacks:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch
+(LOWORD(wParam)) {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case
+IDC_MYCONTROL:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+handle your widget command, then notify clipx that the Apply button
+should be
+enabled:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g_clipx-&gt;config_allowApply();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;return
+0;<BR>&nbsp;&nbsp;}<BR>&nbsp;&nbsp;return 0;<BR>}</I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+Your dialog procedure should only operate on the temporary settings
+that were previously copied in copySettings, and never on the actual
+settings themselves.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual void saveSettings(const char *inifile, const char
+*section) {}</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">This callback
+function is called when you should save your (actual, not temporary)
+settings. Use <A HREF="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/writeprivateprofilestring.asp">WritePrivateProfileString</A>
+with the parameters given.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>inifile</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The name of the ini file you should use with
+WritePrivateProfileString.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>section</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The name of the ini section you should use with
+WritePrivateProfileString</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual void loadSettings(const char *inifile, const char
+*section) {}</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">This callback
+function is called when you should load your (actual, not temporary)
+settings. Use <A HREF="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/getprivateprofilestring.asp">GetPrivateProfileString</A>
+or <A HREF="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/getprivateprofilestring.asp">GetPrivateProfileInt</A>
+with the parameters given.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>inifile</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The name of the ini file you should use with GetPrivateProfile*.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>section</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The name of the ini section you should use with GetPrivateProfile*</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><I><B>virtual
+void onDestroyPage(HWND dialog)</B></I></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in">This callback
+function is called when the config page is going away.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>HWND dialog</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+The window handle of the dialog for the config page.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+</BODY>
+</HTML>

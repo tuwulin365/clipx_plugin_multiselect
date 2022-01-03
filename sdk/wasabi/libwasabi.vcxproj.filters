@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{53765b18-4a4f-4819-97a2-c54fdf130acd}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\system">
+      <UniqueIdentifier>{7336b188-6722-469b-8d90-832e3dde18ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\system\memory">
+      <UniqueIdentifier>{42b05629-978e-4170-baca-dbcd862e2a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\system\parse">
+      <UniqueIdentifier>{e082085d-fe4b-4832-bc40-28cbf78815ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\system\string">
+      <UniqueIdentifier>{4265e66e-f237-4ba1-8fa2-e04a82705618}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\api">
+      <UniqueIdentifier>{7c44c2f5-64d0-47e0-91e0-4ce241913e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\api\service">
+      <UniqueIdentifier>{54bbc1df-449e-46eb-a965-73bac4eb15db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{28aed45f-e9f8-4d5f-a072-5a42fde2ebb8}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bfc\foreach.cpp">
+      <Filter>Source Files\system\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\memblock.cpp">
+      <Filter>Source Files\system\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\ptrlist.cpp">
+      <Filter>Source Files\system\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse\pathparse.cpp">
+      <Filter>Source Files\system\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\string\encodedstr.cpp">
+      <Filter>Source Files\system\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\string\string.cpp">
+      <Filter>Source Files\system\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\assert.cpp">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\guid.cpp">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\nsguid.cpp">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\std.cpp">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\std_mem.cpp">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bfc\std_string.cpp">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api\service\waservicefactoryx.cpp">
+      <Filter>Source Files\api\service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\precomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\precomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

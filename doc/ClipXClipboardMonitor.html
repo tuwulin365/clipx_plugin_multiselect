@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - ClipXClipboardMonitor</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US" LINK="#e0e0ff" BGCOLOR="#001240" DIR="LTR">
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 1.18in; margin-right: 1.18in">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><FONT SIZE=4 STYLE="font-size: 16pt"><B>ClipXClipboardMonitor
+Service</B></FONT></P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Header: #include
+&lt;ClipXClipboardMonitor.h&gt;<BR>Ancestor: ClipXClipboardMonitor 
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in">Member Events:</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual int onNewTextClipboard(const char *text);</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the user has copied a new text
+clipboard, and before ClipX has recorded it. 
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>const char
+*text</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A pointer to the string that was copied (encoding is UTF8).</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>return value
+(int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+Return 0 to ignore that clipboard, or 1 to let ClipX record it into
+the history.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual int onNewBitmapClipboard(HBITMAP bmp);</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is one of the two functions that may be called
+when the user has copied a new bitmap clipboard, and before ClipX has
+recorded it. 
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>HBITMAP bmp</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A handle to the bitmap.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>return value
+(int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+Return 0 to ignore that clipboard, or 1 to let ClipX record it into
+the history.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual int onNewDIBitmapClipboard(BITMAPINFO *bi);</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is one of the two functions that may be called
+when the user has copied a new bitmap clipboard, and before ClipX has
+recorded it. 
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>BITMAPINFO
+*bi</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A pointer to a packed DIB.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>return value
+(int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+Return 0 to ignore that clipboard, or 1 to let ClipX record it into
+the history.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in; font-style: normal">
+<B>virtual int onNewFileListClipboard(HDROP filelist);</B></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in; font-style: normal">
+This callback function is called when the use has copied one or more
+files in Windows Explorer, and before ClipX has recorded it. 
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>HDROP
+filelist</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+A file list HDROP handle, use QueryQueryFile to retrieve the files.</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><I>return value
+(int):</I></P>
+<P STYLE="margin-left: 2.36in; margin-right: 1.18in; font-style: normal">
+Return 0 to ignore that clipboard, or 1 to let ClipX record it into
+the history.</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.58in; margin-right: 1.18in"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.18in; margin-right: 1.18in"><BR><BR>
+</P>
+</BODY>
+</HTML>

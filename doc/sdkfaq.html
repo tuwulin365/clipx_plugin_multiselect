@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - FAQ</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US">
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 3cm; margin-right: 3cm">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><FONT SIZE=4 STYLE="font-size: 16pt"><B>Frequently
+Asked Questions</B></FONT></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium"><B>How
+to convert from UTF8 to UNICODE ?</B> 
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><I>#include
+&lt;bfc/string/encodedstr.h&gt;<BR>// ...<BR>String utf8_string;<BR>//
+...<BR>EncodedStr es;<BR>es.convertFromUTF8(SvcStrCnv::UTF16,
+utf8_string);<BR>// es.getEncodedBuffer() now returns the UNICODE
+string</I></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium"><B>How
+to convert from UNICODE to UTF8 ?</B> 
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><I>#include
+&lt;bfc/string/encodedstr.h&gt;<BR>// ...<BR>EncodedStr
+es(SvcStrCnv::UTF16, unicode_string, WSTRLEN(unicode_string) + 1, 0);
+// you must give the size of the string <B>PLUS the null term if
+any</B>.<BR>String utf8_string;<BR>es.convertToUTF8(utf8_string);<BR>//
+utf8_string now contains the string in UTF8 format</I></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium"><B>How
+to convert from ANSI to UTF8 ?</B> 
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><I>#include
+&lt;bfc/string/encodedstr.h&gt;<BR>// ...<BR>EncodedStr
+es(SvcStrCnv::OSNATIVE, unicode_string, STRLEN(ansi_string) + 1, 0);
+// you must give the size of the string <B>PLUS the null term if
+any</B>.<BR>String utf8_string;<BR>es.convertToUTF8(utf8_string);<BR>//
+utf8_string now contains the string in UTF8 format</I></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+</BODY>
+</HTML>

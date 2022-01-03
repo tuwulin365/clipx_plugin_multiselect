@@ -1,0 +1,56 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: libclipx - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP8A.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /I "./" /I "../wasabi/src" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fp"Debug/libclipx.pch" /Yu"precomp.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\ClipX-SDK\sdk\clipx\ClipXClipboardMonitor.cpp"
+"D:\ClipX-SDK\sdk\clipx\ClipXConfigPage.cpp"
+"D:\ClipX-SDK\sdk\clipx\ClipXPlugin.cpp"
+"D:\ClipX-SDK\sdk\clipx\ClipXPopupModifier.cpp"
+"D:\ClipX-SDK\sdk\wasabi\src\wac\waclient.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP8A.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP8B.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /I "./" /I "../wasabi/src" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fp"Debug/libclipx.pch" /Yc"precomp.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\ClipX-SDK\sdk\wasabi\src\precomp.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP8B.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP8C.tmp" with contents
+[
+/nologo /out:"Debug\libclipx.lib" 
+".\Debug\ClipXClipboardMonitor.obj"
+".\Debug\ClipXConfigPage.obj"
+".\Debug\ClipXPlugin.obj"
+".\Debug\ClipXPopupModifier.obj"
+".\Debug\precomp.obj"
+".\Debug\waclient.obj"
+"\ClipX-SDK\sdk\wasabi\Debug\libwasabi.lib"
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP8C.tmp"
+<h3>Output Window</h3>
+Compiling...
+precomp.cpp
+Compiling...
+ClipXClipboardMonitor.cpp
+ClipXConfigPage.cpp
+ClipXPlugin.cpp
+ClipXPopupModifier.cpp
+waclient.cpp
+Generating Code...
+Creating library...
+Replacing .\Debug\precomp.obj
+
+
+
+<h3>Results</h3>
+libclipx.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

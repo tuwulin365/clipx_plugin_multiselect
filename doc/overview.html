@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</HEAD>
+<BODY LANG="en-US">
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<H1 STYLE="margin-left: 3cm; margin-right: 3cm">ClipX &ndash;
+Software Development Kit</H1>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><FONT SIZE=4 STYLE="font-size: 16pt"><B>Overview</B></FONT></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><B>Plugin Model</B></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><SPAN STYLE="text-decoration: none">The
+ClipX plugin model uses the <A HREF="http://wasabi.t0x.org/">Wasabi</A>
+Component architecture, and consists of a number of <A HREF="services.html">services</A>,
+automatically exposed to ClipX by the ClipXPlugin object. In turn,
+the ClipXPlugin object automatically exposes a global ClipXHost api,
+so that service implementations may talk to ClipX. <BR></SPAN><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; text-decoration: none">
+<IMG SRC="overview.png" NAME="Graphic1" ALIGN=BOTTOM WIDTH=427 HEIGHT=270 BORDER=0></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><SPAN STYLE="text-decoration: none">All
+exposed interfaces use the standard <A HREF="http://wasabi.t0x.org/cgi-bin/trac.cgi/wiki/WasabiDispatchable">Wasabi
+Dispatchable</A> technology. This ensures that your plugin will
+always work even if it uses an older or more recent interface than
+the one it was compiled with. </SPAN>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; text-decoration: none">
+Note that all strings within ClipX are encoded in UTF8, see the <A HREF="sdkfaq.html">FAQ</A>
+if you need to convert them to UNICODE</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium; text-decoration: none">
+The following snippet of code creates a ClipXPlugin object and
+exposes it to ClipX :</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; text-decoration: none">
+<I><B>Header</B></I></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm; font-weight: medium; text-decoration: none">
+<I>#ifndef CLIPX_PLUGIN_H<BR>#define CLIPX_PLUGIN_H<BR><BR>#include
+&lt;ClipXPlugin.h&gt;<BR><BR>class SampleClipXPlugin : public
+ClipXPlugin {<BR>public:<BR>virtual const char *getName() { return
+&ldquo;My Plugin Name&rdquo;; }<BR>&nbsp;&nbsp;virtual GUID getGUID()
+{ return MY_PLUGIN_GUID; } // This GUID needs to be
+declared!<BR>&nbsp;&nbsp;virtual void onCreate() {}<BR>&nbsp;&nbsp;virtual
+void onDestroy() {}<BR>&nbsp;&nbsp;virtual void about(HWND parent)
+{}<BR>};<BR><BR>#endif</I></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; text-decoration: none">
+<I><B>Module</B></I></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><I><SPAN STYLE="text-decoration: none">#include
+&lt;precomp.h&gt;<BR>#include &quot;plugin.h&quot;<BR></SPAN><BR><SPAN STYLE="text-decoration: none">//
+Construct the plugin object and export
+it<BR>DECLARE_CLIPX_PLUGIN(SampleClipXPlugin)<BR></SPAN></I><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-style: normal; text-decoration: none">
+The following snippet of code creates a ClipX service (in this case,
+a ClipXPopupModifer), and lets the ClipXPlugin object automatically
+expose it to ClipX :</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><I><B>Header</B></I></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm; font-style: normal; text-decoration: none">
+#ifndef SAMPLE_POPUPMODIFIER_H<BR>#define
+SAMPLE_POPUPMODIFIER_H<BR><BR>#include &lt;ClipXPopupModifier.h&gt;<BR><BR>class
+SamplePopupModifier : public ClipXPopupModifier {<BR>public:<BR>&nbsp;&nbsp;virtual
+void customizeSystrayMenu(ClipXMenuHandler *menu) {}<BR>&nbsp;&nbsp;virtual
+void customizeHistoryMenu(ClipXMenuHandler *menu, int is_hotkey, int
+is_submenu) {}<BR>&nbsp;&nbsp;virtual void onCommand(int cmd)
+{}<BR>&nbsp;&nbsp;virtual void onCustomSize(int cmd, int *w, int *h)
+{}<BR>&nbsp;&nbsp;virtual void onCustomDraw(int cmd, HDC dc, RECT
+rcitem, int state) {}<BR>};<BR><BR>#endif</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><I><B>Module</B></I></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm; font-style: normal; text-decoration: none">
+#include &lt;precomp.h&gt;<BR>#include
+&quot;SamplePopupModifier.h&quot;<BR><BR>_DECLARE_SERVICETSINGLE(svc_ClipXPopupModifier,
+SamplePopupModifier);<BR><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><BR><BR>
+</P>
+</BODY>
+</HTML>

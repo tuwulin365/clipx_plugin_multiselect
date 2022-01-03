@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>ClipX - SDK - Getting Started</TITLE>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<META NAME="GENERATOR" CONTENT="StarOffice 6.0  (Win32)">
+	<META NAME="CREATED" CONTENT="20041009;18061359">
+	<META NAME="CHANGED" CONTENT="20041009;23243818">
+</HEAD>
+<BODY LANG="en-US">
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<h1 STYLE="margin-left: 3cm; margin-right: 3cm">ClipX
+&ndash; Software Development Kit<BR><BR></h1><P STYLE="margin-left: 3cm; margin-right: 3cm"><B><FONT SIZE=4 STYLE="font-size: 16pt">Getting
+Started</FONT></B></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium"><B>SDK
+packages</B></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><SPAN STYLE="text-decoration: none">There
+are two SDK packages you can get. The first
+(<A HREF="http://bluemars.org/clipx/ClipX-SDK.zip">http://bluemars.org/clipx/ClipX-SDK.zip</A>)
+is a full SDK, which will compile out-of-the-box, and is intended for
+general use. The second (<A HREF="http://bluemars.org/clipx/ClipX-MiniSDK.zip">http://bluemars.org/clipx/ClipX-MiniSDK.zip</A>)
+is a minimal SDK, it will <B>not</B> compile out-of-the-box, and is
+intended for those of you who already have a <A HREF="http://wasabi.t0x.org/"><SPAN STYLE="background: transparent">Wasabi</SPAN></A>
+development tree set up, and wish to customize their project paths to
+use it.</SPAN></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium; text-decoration: none">
+Both SDKs are meant for VisualC++ 6.0.</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium"><B>Installing,
+Compiling the Sample plugin</B></P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium; text-decoration: none">
+<I>Full SDK</I></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm; font-style: normal; font-weight: medium; text-decoration: none">
+- Unzip the ClipX-SDK.zip file in the directory of your
+choice, for instance, C:\ClipXSDK, then load the Sample.dsw project
+located in the plugins\Sample subdirectory and select Build-&gt;Build
+Sample.wac from the VisualC++ IDE menu. <BR>- Run it
+(Build-&gt;Execute). Note that you may now have two &ldquo;Limits&rdquo;
+configuration pages and plugin entries, this is because the sample
+plugin compiles to Sample.wac, and because you have already installed
+the Limits plugin from the ClipX homepage, whose file is named
+&ldquo;limits.wac&rdquo;.</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm; font-weight: medium; text-decoration: none">
+<I>Mini SDK</I></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><SPAN STYLE="text-decoration: none">-
+Unzip the ClipX-MiniSDK.zip file in the directory of your choice, for
+instance, C:\ClipXSDK. This package contains another zip file named
+ClipX&nbsp;SamplePlugin.zip, </SPAN>which you should also unzip in
+its own directory. <BR>- Load and modify the DSPs such that the
+correct relative directories are used for include files
+(Project-&gt;Settings-&gt;C/C++-&gt;Preprocessor-&gt;Additional
+Include Directories). Select &ldquo;Settings For: All
+Configurations&rdquo;. The sample plugin should have two additional
+include directories: one that points to the ClipX mini-SDK directory,
+the other to the Wasabi &ldquo;src&rdquo; subdirectory. The ClipX
+mini-SDK should have two entries as well: one that points to itself
+(&ldquo;./&rdquo;), and the other to the Wasabi &ldquo;src&rdquo;
+subdirectory. <BR>- Load your own libwasabi.dsp or equivalent. This
+may be a full DSP to the entire tree, or a minimal custom one
+that you create just for ClipX projects (in order to accelerate
+compilation). Make that project a dependency of libclipx.dsp.<BR>-
+Modify the sample plugin Debug settings (Project-&gt;Settings-&gt;Debug,
+for All Configurations) such that &ldquo;Executable for debug
+session&rdquo; points at your installed ClipX.exe, and change the
+&ldquo;Working directory&rdquo; to the path for ClipX.exe. Select the
+Link tab (Project-&gt;Settings-&gt;Link, for All Configurations) and
+modify the &ldquo;Output file name&rdquo; entry to point at the
+&ldquo;plugins&rdquo; subdirectory of where ClipX.exe is located.<BR>-
+Add the ClipX-miniSDK project to the sample plugin project, and make
+it a dependency of it. <BR>- Build the sample plugin, Run it.<BR><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><A HREF="index.html">Back
+to documentation index</A></P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 4cm; margin-right: 3cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 3cm; margin-right: 3cm"><BR><BR>
+</P>
+</BODY>
+</HTML>
