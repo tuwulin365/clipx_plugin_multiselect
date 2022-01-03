@@ -25,6 +25,8 @@ int gi_hotkey_mod = 0;
 int gb_newline = 1;
 int gb_newfirst = 1;
 int gb_quote = 0;
+int gb_paste = 1;
+int gb_copy = 0;
 
 // temp values
 int tb_enabled = 0;
@@ -34,6 +36,8 @@ int ti_hotkey_mod = 0;
 int tb_newline = 0;
 int tb_newfirst = 0;
 int tb_quote = 0;
+int tb_paste = 0;
+int tb_copy = 0;
 
 
 INT_PTR CALLBACK MyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -50,6 +54,8 @@ void SampleConfigPage::loadSettings(const char *inifile, const char *section)
     gb_newline = GetPrivateProfileInt(section, "multiselect_newline", gb_newline, inifile);
     gb_newfirst = GetPrivateProfileInt(section, "multiselect_newfirst", gb_newfirst, inifile);
     gb_quote = GetPrivateProfileInt(section, "multiselect_quote", gb_quote, inifile);
+    gb_paste = GetPrivateProfileInt(section, "multiselect_paste", gb_paste, inifile);
+    gb_copy = GetPrivateProfileInt(section, "multiselect_copy", gb_copy, inifile);
 
     //unicode ver listbox
 #if USE_UNICODE_LISTBOX 
@@ -76,6 +82,8 @@ void SampleConfigPage::saveSettings(const char *inifile, const char *section)
     WritePrivateProfileString(section, "multiselect_newline", StringPrintf("%d", gb_newline), inifile);
     WritePrivateProfileString(section, "multiselect_newfirst", StringPrintf("%d", gb_newfirst), inifile);
     WritePrivateProfileString(section, "multiselect_quote", StringPrintf("%d", gb_quote), inifile);
+    WritePrivateProfileString(section, "multiselect_paste", StringPrintf("%d", gb_paste), inifile);
+    WritePrivateProfileString(section, "multiselect_copy", StringPrintf("%d", gb_copy), inifile);
 }
 
 // settings are copied to temporary variables, which the dialog works on, when the clipx config dialog is brought up
@@ -88,6 +96,8 @@ void SampleConfigPage::copySettings()
     tb_newline      = gb_newline;
     tb_newfirst     = gb_newfirst;
     tb_quote        = gb_quote;
+    tb_paste        = gb_paste;
+    tb_copy         = gb_copy;
 }
 
 // settings are validated when the user clicks ok or apply
@@ -117,6 +127,8 @@ void SampleConfigPage::applySettings()
     gb_newline      = tb_newline;
     gb_newfirst     = tb_newfirst;
     gb_quote        = tb_quote;  
+    gb_paste        = tb_paste;
+    gb_copy         = tb_copy;
 }
 
 void updateVisibility(HWND hwndDlg)
@@ -126,6 +138,10 @@ void updateVisibility(HWND hwndDlg)
     EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_NEWLINE), tb_enabled);
     EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_NEW_FIRST), tb_enabled);
     EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_QUOTE), tb_enabled);
+    EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC_OUTPUT), tb_enabled);
+    EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_PASTE_TO_BOX), tb_enabled);
+    EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_COPY_TO_CLIP), tb_enabled);
+    EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_PASTE_COPY), tb_enabled);
 }
 
 HWND g_last_dlg = NULL;
@@ -208,14 +224,56 @@ static int FillRecordToListbox(HWND hListCtl)
 #endif
     return 0;
 }
-static int PasteRecordFromListbox(HWND hListCtrl)
+
+static int CopyTextToClip(char *pcText)
+{
+    int iRet = 0;
+    HGLOBAL hMemory;
+    LPTSTR lpMemory;
+
+    int contentSize = strlen(pcText) + 1;
+
+    if (!OpenClipboard(NULL))   // 打开剪切板，打开后，其他进程无法访问
+    {
+        return -1;
+    }
+    if (!EmptyClipboard())      // 清空剪切板，写入之前，必须先清空剪切板
+    {
+        iRet = -2;
+        goto _exit;
+    }
+    if ((hMemory = GlobalAlloc(GMEM_MOVEABLE, contentSize)) == NULL)   // 对剪切板分配内存
+    {
+        iRet = -3;
+        goto _exit;
+    }
+    if ((lpMemory = (LPTSTR)GlobalLock(hMemory)) == NULL)            // 将内存区域锁定
+    {
+        iRet = -4;
+        goto _exit;
+    }
+    memcpy_s(lpMemory, contentSize, pcText, contentSize);   // 将数据复制进入内存区域
+    GlobalUnlock(hMemory);                   // 解除内存锁定
+    if (SetClipboardData(CF_TEXT, hMemory) == NULL)
+    {
+        iRet = -5;
+        goto _exit;
+    }
+
+_exit:
+    CloseClipboard();
+
+    return iRet;
+}
+
+static int OutputRecordFromListbox(HWND hListCtrl)
 {
 #if 0
     char czBuf[256];
     int iItemIndex[100];
     int iItemCnt;
     
-    iItemCnt = SendMessage(hListCtrl, LB_GETSELITEMS, 100, (LPARAM)iItemIndex);
+    iItemCnt = ListBox_GetSelItems(hListCtrl, ARRAYSIZE(iItemIndex), iItemIndex);
     sprintf(czBuf, "sel=%d ", iItemCnt);
     for (int i = 0; i < iItemCnt; i++)
     {
@@ -226,7 +284,7 @@ static int PasteRecordFromListbox(HWND hListCtrl)
     int iItemIndex[1000];
     int iItemCnt;
     
-    iItemCnt = SendMessage(hListCtrl, LB_GETSELITEMS, 1000, (LPARAM)iItemIndex);
+    iItemCnt = ListBox_GetSelItems(hListCtrl, ARRAYSIZE(iItemIndex), iItemIndex);
     for (int i = 0; i < iItemCnt; i++)
     {
         if (gb_quote)
@@ -287,7 +345,24 @@ static int PasteRecordFromListbox(HWND hListCtrl)
             strcat(pText, "\r\n");
         }
     }
-    g_clipx->misc_paste(pText);
+    
+    if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_PASTE_DLG))
+    {
+        //paste to box
+        g_clipx->misc_paste(pText);
+    }
+    else if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_COPY_DLG))
+    {
+        //copy to clip
+        CopyTextToClip(pText);
+    }
+    else
+    {
+        //copy and paste
+        CopyTextToClip(pText);
+        g_clipx->misc_paste(pText);
+    }
+    
     free(pText);
 #endif
     return 0;
@@ -317,7 +392,7 @@ INT_PTR CALLBACK MyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                 case IDOK:
                 {
                     ShowWindow(hwndDlg, SW_HIDE);
-                    PasteRecordFromListbox(GetDlgItem(hwndDlg, IDC_LIST_RECORD));
+                    OutputRecordFromListbox(GetDlgItem(hwndDlg, IDC_LIST_RECORD));
                     //EndDialog(hwndDlg, LOWORD(wParam));
                     return TRUE;
                 }
@@ -364,6 +439,18 @@ INT_PTR CALLBACK MyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             CheckDlgButton(hwndDlg, IDC_CHECK_NEWLINE_DLG, gb_newline ? BST_CHECKED : BST_UNCHECKED);
             CheckDlgButton(hwndDlg, IDC_CHECK_NEW_FIRST_DLG, gb_newfirst ? BST_CHECKED : BST_UNCHECKED);
             CheckDlgButton(hwndDlg, IDC_CHECK_QUOTE_DLG, gb_quote ? BST_CHECKED : BST_UNCHECKED);
+            if (gb_paste && !gb_copy)
+            {
+                CheckRadioButton(hwndDlg, IDC_RADIO_PASTE_DLG, IDC_RADIO_PASTE_COPY_DLG, IDC_RADIO_PASTE_DLG);
+            }
+            else if (!gb_paste && gb_copy)
+            {
+                CheckRadioButton(hwndDlg, IDC_RADIO_PASTE_DLG, IDC_RADIO_PASTE_COPY_DLG, IDC_RADIO_COPY_DLG);
+            }
+            else
+            {
+                CheckRadioButton(hwndDlg, IDC_RADIO_PASTE_DLG, IDC_RADIO_PASTE_COPY_DLG, IDC_RADIO_PASTE_COPY_DLG);
+            }
 
             FillRecordToListbox(GetDlgItem(hwndDlg, IDC_LIST_RECORD));
             ListBox_SetSel(GetDlgItem(hwndDlg, IDC_LIST_RECORD), TRUE, 0);
@@ -437,6 +524,21 @@ INT_PTR CALLBACK dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             CheckDlgButton(hwndDlg, IDC_CHECK_NEWLINE, tb_newline ? BST_CHECKED : BST_UNCHECKED);
             CheckDlgButton(hwndDlg, IDC_CHECK_NEW_FIRST, tb_newfirst ? BST_CHECKED : BST_UNCHECKED);
             CheckDlgButton(hwndDlg, IDC_CHECK_QUOTE, tb_quote ? BST_CHECKED : BST_UNCHECKED);
+            if (gb_paste && !gb_copy)
+            {
+                //CheckDlgButton(hwndDlg, IDC_RADIO_PASTE_TO_BOX, BST_CHECKED);
+                CheckRadioButton(hwndDlg, IDC_RADIO_PASTE_TO_BOX, IDC_RADIO_PASTE_COPY, IDC_RADIO_PASTE_TO_BOX);
+            }
+            else if (!gb_paste && gb_copy)
+            {
+                //CheckDlgButton(hwndDlg, IDC_RADIO_COPY_TO_CLIP, BST_CHECKED);
+                CheckRadioButton(hwndDlg, IDC_RADIO_PASTE_TO_BOX, IDC_RADIO_PASTE_COPY, IDC_RADIO_COPY_TO_CLIP);
+            }
+            else
+            {
+                //CheckDlgButton(hwndDlg, IDC_RADIO_PASTE_COPY, BST_CHECKED);
+                CheckRadioButton(hwndDlg, IDC_RADIO_PASTE_TO_BOX, IDC_RADIO_PASTE_COPY, IDC_RADIO_PASTE_COPY);
+            }
             
             updateVisibility(hwndDlg);
             return TRUE;
@@ -474,6 +576,33 @@ INT_PTR CALLBACK dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     updateVisibility(hwndDlg);
                     g_clipx->config_allowApply();
                     return 0;
+                case IDC_RADIO_PASTE_TO_BOX:
+                    if (IsDlgButtonChecked(hwndDlg, wID))
+                    {
+                        tb_paste = 1;
+                        tb_copy = 0;
+                    }
+                    updateVisibility(hwndDlg);
+                    g_clipx->config_allowApply();
+                    return 0;
+                case IDC_RADIO_COPY_TO_CLIP:
+                    if (IsDlgButtonChecked(hwndDlg, wID))
+                    {
+                        tb_paste = 0;
+                        tb_copy = 1;
+                    }
+                    updateVisibility(hwndDlg);
+                    g_clipx->config_allowApply();
+                    return 0;
+                case IDC_RADIO_PASTE_COPY:
+                    if (IsDlgButtonChecked(hwndDlg, wID))
+                    {
+                        tb_paste = 1;
+                        tb_copy = 1;
+                    }
+                    updateVisibility(hwndDlg);
+                    g_clipx->config_allowApply();
+                    return 0;                   
                     
                 case IDC_HOTKEY_POPUP:
                     if (wNotifyCode == EN_CHANGE)
