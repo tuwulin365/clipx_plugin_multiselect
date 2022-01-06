@@ -9,11 +9,11 @@ DECLARE_CLIPX_PLUGIN(SampleClipXPlugin)
 
 #define PLUGIN_NAME "ClipX Multiselect"
 #ifdef _DEBUG
-#define PLUGIN_VER  "v1.00 debug"
+#define PLUGIN_VER  "v1.01 debug"
 #else
-#define PLUGIN_VER  "v1.00"
+#define PLUGIN_VER  "v1.01"
 #endif
-#define PLUGIN_TM   "2022-01-03"
+#define PLUGIN_TM   "2022-01-06"
 
 const char *SampleClipXPlugin::getName()
 {

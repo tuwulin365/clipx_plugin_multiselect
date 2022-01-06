@@ -198,8 +198,9 @@ static int FillRecordToListbox(HWND hListCtl)
 
             //utf8 to unicode
             iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, -1, NULL, 0);
-            pwcBuf = (wchar_t*)malloc(iWideCharCnt * sizeof(wchar_t));
-            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, -1, pwcBuf, iWideCharCnt);
+            pwcBuf = (wchar_t*)malloc(iWideCharCnt * sizeof(wchar_t) + 8 * sizeof(wchar_t));
+            swprintf(pwcBuf, L"(%03d) ", i+1);  //序号
+            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, -1, pwcBuf + wcslen(pwcBuf), iWideCharCnt);
             
         #if USE_UNICODE_LISTBOX
             SendMessageW(hListCtl, LB_INSERTSTRING, -1, (LPARAM)(LPCTSTR)pwcBuf);
@@ -266,6 +267,50 @@ _exit:
     return iRet;
 }
 
+static int CopyUnicodeTextToClip(wchar_t *pText)
+{
+    int iRet = 0;
+    HGLOBAL hMemory;
+    LPTSTR lpMemory;
+
+    int contentSize = (wcslen(pText) + 1) * sizeof(wchar_t);
+
+    if (!OpenClipboard(NULL))   // 打开剪切板，打开后，其他进程无法访问
+    {
+        return -1;
+    }
+    if (!EmptyClipboard())      // 清空剪切板，写入之前，必须先清空剪切板
+    {
+        iRet = -2;
+        goto _exit;
+    }
+    if ((hMemory = GlobalAlloc(GMEM_MOVEABLE, contentSize)) == NULL)   // 对剪切板分配内存
+    {
+        iRet = -3;
+        goto _exit;
+    }
+    if ((lpMemory = (LPTSTR)GlobalLock(hMemory)) == NULL)            // 将内存区域锁定
+    {
+        iRet = -4;
+        goto _exit;
+    }
+    memcpy_s(lpMemory, contentSize, pText, contentSize);   // 将数据复制进入内存区域
+    GlobalUnlock(hMemory);                   // 解除内存锁定
+    if (SetClipboardData(CF_UNICODETEXT, hMemory) == NULL)
+    {
+        iRet = -5;
+        goto _exit;
+    }
+
+_exit:
+    CloseClipboard();
+
+    return iRet;
+}
+
+
+#define TIMER_ID_DEL_RECORD 0x1122
+
 static int OutputRecordFromListbox(HWND hListCtrl)
 {
 #if 0
@@ -306,6 +351,8 @@ static int OutputRecordFromListbox(HWND hListCtrl)
     int iItemIndex[1000];
     int iItemCnt;
     char *pText;
+    int iWideCharCnt;
+    wchar_t *pwcText;
     
     iItemCnt = ListBox_GetSelItems(hListCtrl, ARRAYSIZE(iItemIndex), iItemIndex);
     if (iItemCnt <= 0)
@@ -345,7 +392,13 @@ static int OutputRecordFromListbox(HWND hListCtrl)
             strcat(pText, "\r\n");
         }
     }
-    
+
+    //utf8 to unicode
+    iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pText, -1, NULL, 0);
+    pwcText = (wchar_t*)malloc(iWideCharCnt * sizeof(wchar_t));
+    iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pText, -1, pwcText, iWideCharCnt);
+
+#if 0
     if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_PASTE_DLG))
     {
         //paste to box
@@ -354,14 +407,34 @@ static int OutputRecordFromListbox(HWND hListCtrl)
     else if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_COPY_DLG))
     {
         //copy to clip
-        CopyTextToClip(pText);
+        CopyUnicodeTextToClip(pwcText);
     }
     else
     {
         //copy and paste
-        CopyTextToClip(pText);
+        CopyUnicodeTextToClip(pwcText);
         g_clipx->misc_paste(pText);
     }
+#else
+    //copy to clip
+    CopyUnicodeTextToClip(pwcText);
+    if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_PASTE_DLG))
+    {
+        //paste to box
+        g_clipx->misc_pasteHistoryItem(0);
+        //set del timer
+        SetTimer(ghMyDlg, TIMER_ID_DEL_RECORD, 500, NULL);
+    }
+    else if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_COPY_DLG))
+    {
+        //nothing
+    }
+    else
+    {
+        //paste
+        g_clipx->misc_pasteHistoryItem(0);
+    }
+#endif
     
     free(pText);
 #endif
@@ -457,9 +530,26 @@ INT_PTR CALLBACK MyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             //ListBox_SetHorizontalExtent(GetDlgItem(hwndDlg, IDC_LIST_RECORD), 1000);    //刷新水平滚动条
             ShowWindow(hwndDlg, SW_SHOW);
             UpdateWindow(hwndDlg);  //立即刷新窗口
+            SetForegroundWindow(hwndDlg);
             SetFocus(GetDlgItem(hwndDlg, IDC_LIST_RECORD));
             break;
         }
+        case WM_TIMER:
+        {
+            int iTimerID = wParam;
+            
+            if (iTimerID == TIMER_ID_DEL_RECORD)
+            {
+                g_clipx->history_deleteItem(0);
+                KillTimer(ghMyDlg, TIMER_ID_DEL_RECORD);
+            }
+            else
+            {
+                return TRUE;
+            }
+            return 0;
+        }
+    
         case WM_CLOSE:
     	{
     		//PostQuitMessage(1);
