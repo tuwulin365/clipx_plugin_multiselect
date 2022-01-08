@@ -166,6 +166,7 @@ static const char *CutHeadBlank(const char *pString)
     return (i == strlen(pString)) ? pString : (pString+i);
 }
 
+#define DISP_RECORD_MAX_LEN 300 //ÏÞÖÆÏÔÊ¾µÄ³¤¶È£¬·ÀÖ¹¿¨¶Ù
 static int iAllRecordTotalSize = 0;
 static int FillRecordToListbox(HWND hListCtl)
 {
@@ -197,10 +198,10 @@ static int FillRecordToListbox(HWND hListCtl)
             wchar_t *pwcBuf;
 
             //utf8 to unicode
-            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, -1, NULL, 0);
-            pwcBuf = (wchar_t*)malloc(iWideCharCnt * sizeof(wchar_t) + 8 * sizeof(wchar_t));
+            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, DISP_RECORD_MAX_LEN, NULL, 0);
+            pwcBuf = (wchar_t*)calloc(iWideCharCnt + 8 + 1 , sizeof(wchar_t));  //×Ö·û´®+ÐòºÅ+½áÊø·û
             swprintf(pwcBuf, L"(%03d) ", i+1);  //ÐòºÅ
-            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, -1, pwcBuf + wcslen(pwcBuf), iWideCharCnt);
+            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, DISP_RECORD_MAX_LEN, pwcBuf + wcslen(pwcBuf), iWideCharCnt);
             
         #if USE_UNICODE_LISTBOX
             SendMessageW(hListCtl, LB_INSERTSTRING, -1, (LPARAM)(LPCTSTR)pwcBuf);
@@ -309,7 +310,8 @@ _exit:
 }
 
 
-#define TIMER_ID_DEL_RECORD 0x1122
+#define TIMER_ID_DEL_RECORD     0x1122
+#define TIMER_ID_PASTE_RECORD   0x3344
 
 static int OutputRecordFromListbox(HWND hListCtrl)
 {
@@ -360,7 +362,7 @@ static int OutputRecordFromListbox(HWND hListCtrl)
         return -1;
     }
 
-    pText = (char*)malloc(iAllRecordTotalSize);
+    pText = (char*)calloc(iAllRecordTotalSize + 1, sizeof(char));
     if (!pText)
     {
         return -2;
@@ -395,7 +397,7 @@ static int OutputRecordFromListbox(HWND hListCtrl)
 
     //utf8 to unicode
     iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pText, -1, NULL, 0);
-    pwcText = (wchar_t*)malloc(iWideCharCnt * sizeof(wchar_t));
+    pwcText = (wchar_t*)calloc(iWideCharCnt, sizeof(wchar_t));
     iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pText, -1, pwcText, iWideCharCnt);
 
 #if 0
@@ -420,10 +422,10 @@ static int OutputRecordFromListbox(HWND hListCtrl)
     CopyUnicodeTextToClip(pwcText);
     if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_PASTE_DLG))
     {
-        //paste to box
-        g_clipx->misc_pasteHistoryItem(0);
+        //set paste timer        
+        SetTimer(ghMyDlg, TIMER_ID_PASTE_RECORD, 200, NULL);
         //set del timer
-        SetTimer(ghMyDlg, TIMER_ID_DEL_RECORD, 500, NULL);
+        SetTimer(ghMyDlg, TIMER_ID_DEL_RECORD, 300, NULL);
     }
     else if (IsDlgButtonChecked(ghMyDlg, IDC_RADIO_COPY_DLG))
     {
@@ -431,12 +433,13 @@ static int OutputRecordFromListbox(HWND hListCtrl)
     }
     else
     {
-        //paste
-        g_clipx->misc_pasteHistoryItem(0);
+        //set paste timer        
+        SetTimer(ghMyDlg, TIMER_ID_PASTE_RECORD, 200, NULL);
     }
 #endif
     
     free(pText);
+    free(pwcText);
 #endif
     return 0;
 }
@@ -542,6 +545,11 @@ INT_PTR CALLBACK MyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             {
                 g_clipx->history_deleteItem(0);
                 KillTimer(ghMyDlg, TIMER_ID_DEL_RECORD);
+            }
+            else if (iTimerID == TIMER_ID_PASTE_RECORD)
+            {
+                g_clipx->misc_pasteHistoryItem(0);
+                KillTimer(ghMyDlg, TIMER_ID_PASTE_RECORD);
             }
             else
             {
