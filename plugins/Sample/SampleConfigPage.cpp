@@ -196,12 +196,16 @@ static int FillRecordToListbox(HWND hListCtl)
         {
             int iWideCharCnt;
             wchar_t *pwcBuf;
+            char czTemp[DISP_RECORD_MAX_LEN+1];
 
+            memset(czTemp, 0, sizeof(czTemp));
+            memcpy(czTemp, pcText, (strlen(pcText) > DISP_RECORD_MAX_LEN) ? DISP_RECORD_MAX_LEN : strlen(pcText));
+            
             //utf8 to unicode
-            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, DISP_RECORD_MAX_LEN, NULL, 0);
+            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, czTemp, -1, NULL, 0);
             pwcBuf = (wchar_t*)calloc(iWideCharCnt + 8 + 1 , sizeof(wchar_t));  //×Ö·û´®+ÐòºÅ+½áÊø·û
             swprintf(pwcBuf, L"(%03d) ", i+1);  //ÐòºÅ
-            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, pcText, DISP_RECORD_MAX_LEN, pwcBuf + wcslen(pwcBuf), iWideCharCnt);
+            iWideCharCnt = MultiByteToWideChar(CP_UTF8, 0, czTemp, -1, pwcBuf + wcslen(pwcBuf), iWideCharCnt);
             
         #if USE_UNICODE_LISTBOX
             SendMessageW(hListCtl, LB_INSERTSTRING, -1, (LPARAM)(LPCTSTR)pwcBuf);
