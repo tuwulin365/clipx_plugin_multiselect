@@ -552,8 +552,15 @@ INT_PTR CALLBACK MyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             }
             else if (iTimerID == TIMER_ID_PASTE_RECORD)
             {
+            #if 0
                 g_clipx->misc_pasteHistoryItem(0);
+            #else
+                keybd_event(VK_LCONTROL, 0, 0 ,0);
+                keybd_event('V', 0, 0 ,0);
+                keybd_event('V', 0, KEYEVENTF_KEYUP,0);
+                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYUP,0);
                 KillTimer(ghMyDlg, TIMER_ID_PASTE_RECORD);
+            #endif
             }
             else
             {

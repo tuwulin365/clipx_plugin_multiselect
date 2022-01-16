@@ -13,7 +13,7 @@ DECLARE_CLIPX_PLUGIN(SampleClipXPlugin)
 #else
 #define PLUGIN_VER  "v1.01"
 #endif
-#define PLUGIN_TM   "2022-01-08"
+#define PLUGIN_TM   "2022-01-12"
 
 const char *SampleClipXPlugin::getName()
 {
